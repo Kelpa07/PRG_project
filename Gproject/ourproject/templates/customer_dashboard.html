@@ -1,0 +1,14 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>My Account</title>
+  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+</head>
+<body>
+  <h1>My Account</h1>
+  <p>Welcome, {{ request.user.username }} — this is your customer area.</p>
+  <p><a href="{% url 'logout' %}">Log out</a></p>
+</body>
+</html>

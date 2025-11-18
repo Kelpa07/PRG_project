@@ -1,0 +1,53 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Sign in</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+  <style>
+    body { font-family: Inter, system-ui, Arial, sans-serif; background:#f7f7f9; }
+    .auth-wrap { max-width:900px; margin:60px auto; display:flex; gap:20px; align-items:center; }
+    .panel { background:#fff; padding:28px; border-radius:10px; box-shadow:0 8px 20px rgba(0,0,0,0.06); }
+    input[type=text], input[type=password] { width:100%; padding:10px 12px; border:1px solid #e6e9ef; border-radius:8px; }
+    .btn { padding:10px 14px; border-radius:8px; background:#1f8ef1; color:#fff; border:0 }
+  </style>
+</head>
+<body>
+
+<div class="auth-wrap">
+  <div class="panel" style="flex:1;">
+    <h2>Sign in</h2>
+    <p class="muted">Enter your credentials to continue</p>
+
+    <form method="post">
+      {% csrf_token %}
+      {% if login_form.non_field_errors %}
+        <div class="errorlist">{{ login_form.non_field_errors }}</div>
+      {% endif %}
+
+      <div style="margin-top:12px">
+        <label>Username</label>
+        {{ login_form.username }}
+      </div>
+      <div style="margin-top:12px">
+        <label>Password</label>
+        {{ login_form.password }}
+      </div>
+
+      <div style="margin-top:12px">
+        <button class="btn" type="submit">Sign in</button>
+      </div>
+    </form>
+
+    <p style="margin-top:12px">Don't have an account? <a href="{% url 'accounts' %}">Create one</a></p>
+  </div>
+
+  <div style="width:360px">
+    <img src="{% static 'images/log.png' %}" alt="auth image" style="width:100%; border-radius:8px">
+  </div>
+</div>
+
+</body>
+</html>

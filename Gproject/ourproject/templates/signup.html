@@ -1,0 +1,120 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Create account</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+  <style>
+    body { font-family: Inter, system-ui, Arial, sans-serif; background:#f7f7f9; }
+    .auth-wrap { max-width:1000px; margin:40px auto; background:#fff; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.06); overflow:hidden; display:flex; }
+    .auth-left { flex:1; background:#f2f6fc; display:flex; align-items:center; justify-content:center; padding:36px; }
+    .auth-left img { max-width:100%; height:auto; border-radius:8px; }
+    .auth-right { width:420px; padding:36px; }
+    .brand { font-weight:700; font-size:20px; margin-bottom:18px; }
+    h2 { margin:0 0 10px 0; }
+    p.lead { color:#666; margin:0 0 18px 0 }
+    .form-group { margin-bottom:12px }
+    label { display:block; font-size:13px; margin-bottom:6px }
+    input[type=text], input[type=password] { width:100%; padding:10px 12px; border:1px solid #e6e9ef; border-radius:8px; }
+    .btn { display:inline-block; padding:10px 14px; border-radius:8px; background:#1f8ef1; color:#fff; border:0; cursor:pointer }
+    .messages { margin-bottom:12px }
+    .errorlist { color:#b00020; margin:0 0 8px 0 }
+    .muted { color:#777; font-size:13px }
+    .role { display:flex; gap:12px; margin-bottom:12px }
+    .role label { display:flex; align-items:center; gap:8px }
+  </style>
+</head>
+<body>
+
+<div class="auth-wrap">
+  <div class="auth-left">
+    <img src="{% static 'images/log.png' %}" alt="auth image">
+  </div>
+
+  <div class="auth-right">
+    <div class="brand">MyProject</div>
+
+    {% if messages %}
+      <div class="messages">
+        {% for m in messages %}
+          <div class="muted">{{ m }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <h2>Create account</h2>
+    <p class="lead">Choose your account type and create an account</p>
+
+    <form method="post">
+      {% csrf_token %}
+      {% if signup_form.non_field_errors %}
+        <div class="errorlist">{{ signup_form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="form-group">
+        <label for="id_username">Username</label>
+        {{ signup_form.username }}
+        {% if signup_form.username.errors %}
+          <div class="errorlist">{{ signup_form.username.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="id_password1">Password</label>
+        {{ signup_form.password1 }}
+        {% if signup_form.password1.errors %}
+          <div class="errorlist">{{ signup_form.password1.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="id_password2">Confirm Password</label>
+        {{ signup_form.password2 }}
+        {% if signup_form.password2.errors %}
+          <div class="errorlist">{{ signup_form.password2.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label>Account type</label>
+        <div class="role">
+          {{ signup_form.role }}
+        </div>
+      </div>
+
+      <div class="form-group" id="admin-code-group" style="display:none">
+        <label for="id_admin_code">Admin secret code</label>
+        {{ signup_form.admin_code }}
+        {% if signup_form.admin_code.errors %}
+          <div class="errorlist">{{ signup_form.admin_code.errors }}</div>
+        {% endif %}
+        <div class="muted" style="font-size:12px">Only provide this if you are creating an admin account.</div>
+      </div>
+
+      <div style="margin-top:8px">
+        <button class="btn" type="submit">Create account</button>
+      </div>
+    </form>
+
+    <script>
+      // show admin code field when 'admin' role radio is selected
+      (function(){
+        const radios = document.querySelectorAll('input[name="role"]');
+        const group = document.getElementById('admin-code-group');
+        function update(){
+          const selected = document.querySelector('input[name="role"]:checked');
+          if (selected && selected.value === 'admin') group.style.display = 'block'; else group.style.display = 'none';
+        }
+        radios.forEach(r => r.addEventListener('change', update));
+        document.addEventListener('DOMContentLoaded', update);
+      })();
+    </script>
+
+    <p class="muted" style="margin-top:12px">Already have an account? <a href="{% url 'login' %}">Sign in</a></p>
+  </div>
+</div>
+
+</body>
+</html>

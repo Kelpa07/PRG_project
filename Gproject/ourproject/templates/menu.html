@@ -1,0 +1,107 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Menu</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+  <script defer src="{% static 'js/main.js' %}"></script>
+</head>
+<body>
+
+  <header class="header">
+    <div class="logo-wrap">
+      <div class="logo-circle yellow"></div>
+      <div class="logo-circle green"></div>
+      <div class="site-title">Smart Eats</div>
+    </div>
+
+    <button class="nav-toggle" aria-label="Toggle nav">☰</button>
+
+    <nav class="nav">
+      <a href="/">HOME</a>
+      <a href="/menu/" class="active">MENU</a>
+      <a href="/order/">ORDER</a>
+      <a href="/reception/">RECEPTION{% if reception_has_received %} <span style="color:#fff; background:#d32f2f; padding:2px 6px; border-radius:10px; margin-left:8px">!</span>{% endif %}</a>
+      <a href="/aboutus/">ABOUT US</a>
+    </nav>
+
+    <div class="auth">
+      <a href="/login/">log in</a>
+      <a class="btn-sign" href="/accounts/">SIGN UP</a>
+    </div>
+  </header>
+
+  <div class="container menu-page">
+
+    <div class="menu-grid">
+      <div class="menu-left">
+        <h2 class="menu-title">menu</h2>
+        <div class="menu-items">
+
+          <div class="menu-card" title="Ema Datshi">
+            <img src="{% static 'images/emadatsi.jpg' %}" alt="Ema">
+            <h4>Ema Datshi</h4>
+            <div class="price">Nu.60</div>
+          </div>
+
+          <div class="menu-card" title="Fried Momo">
+            <img src="{% static 'images/fried momo.avif' %}" alt="Momo">
+            <h4>Fried Momo</h4>
+            <div class="price">Nu.80</div>
+          </div>
+
+          <div class="menu-card" title="Sikam Datshi">
+            <img src="{% static 'images/sikam datsi.jpg' %}" alt="Sikam">
+            <h4>Sikam Datshi</h4>
+            <div class="price">Nu.70</div>
+          </div>
+
+          <div class="menu-card" title="Kewa Datshi">
+            <img src="{% static 'images/kewa datsi.png' %}" alt="Kewa">
+            <h4>Kewa Datshi</h4>
+            <div class="price">Nu.60</div>
+          </div>
+
+          <!-- Additional placeholders: replace image src, title and price as needed -->
+          <div class="menu-card" title="Vegetable Curry">
+            <img src="{% static 'images/vegetablecurry.jpg' %}" alt="Vegetable Curry">
+            <h4>Vegetable Curry</h4>
+            <div class="price">Nu.90</div>
+          </div>
+
+          <div class="menu-card" title="Chicken Fried Rice">
+            <img src="{% static 'images/chicken.jpg' %}" alt="Chicken Fried Rice">
+            <h4>Chicken Fried Rice</h4>
+            <div class="price">Nu.120</div>
+          </div>
+
+          <div class="menu-card" title="Spicy Noodles">
+            <img src="{% static 'images/spicy.jpg' %}" alt="Spicy Noodles">
+            <h4>Spicy Noodles</h4>
+            <div class="price">Nu.100</div>
+          </div>
+
+          <div class="menu-card" title="Seasonal Salad">
+            <img src="{% static 'images/salad.jpg' %}" alt="Seasonal Salad">
+            <h4>Seasonal Salad</h4>
+            <div class="price">Nu.70</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="menu-right">
+        <img src="{% static 'images/bhutan.jpg' %}" alt="Hero food">
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    © {% now "Y" %} Smart Eats — Menu
+  </footer>
+
+</body>
+</html>
