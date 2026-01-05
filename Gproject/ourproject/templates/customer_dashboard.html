@@ -1,14 +1,62 @@
 {% load static %}
 <!doctype html>
-<html>
+<html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>My Account</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+  <script defer src="{% static 'js/main.js' %}"></script>
 </head>
+
 <body>
-  <h1>My Account</h1>
-  <p>Welcome, {{ request.user.username }} — this is your customer area.</p>
-  <p><a href="{% url 'logout' %}">Log out</a></p>
+
+  <header class="header">
+    <div class="logo-wrap">
+      <div class="logo-circle yellow"></div>
+      <div class="logo-circle green"></div>
+      <div class="site-title">Smart Eats</div>
+    </div>
+
+    <button class="nav-toggle" aria-label="Toggle nav">☰</button>
+
+    <nav class="nav">
+      <a href="/">HOME</a>
+      <a href="/menu/">MENU</a>
+      <a href="/order/">ORDER</a>
+      <a href="/reception/">RECEPTION</a>
+      <a href="/aboutus/">ABOUT US</a>
+    </nav>
+
+    <div class="auth">
+      <a href="{% url 'logout' %}">Log out</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>My Account</h2>
+    <p>Welcome, {{ request.user.username }} — this is your customer dashboard.</p>
+
+    <h3>My Orders</h3>
+    {% if orders %}
+    <ul style="list-style:none; padding:0">
+      {% for o in orders %}
+      <li style="padding:10px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center">
+        <div>
+          <div><strong>Order #{{ o.id }}</strong> — {{ o.created_at }}</div>
+          <div style="font-size:13px; color:#555">Status: {{ o.get_status_display }} | Total: ${{ o.total }}</div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No orders yet.</p>
+    {% endif %}
+  </main>
+
+  <footer class="footer">© {% now "Y" %} Smart Eats — Customer Dashboard</footer>
+
 </body>
+
 </html>

@@ -144,12 +144,28 @@ def dashboard(request):
 @login_required
 @user_passes_test(_is_admin)
 def admin_dashboard(request):
-    return render(request, 'admin_dashboard.html')
+    users = User.objects.all().order_by('username')
+    return render(request, 'admin_dashboard.html', {'users': users})
+
+
+@require_POST
+@login_required
+@user_passes_test(_is_admin)
+def toggle_staff(request, user_id):
+    try:
+        user = User.objects.get(pk=user_id)
+        user.is_staff = not user.is_staff
+        user.save()
+        messages.success(request, f'User {user.username} role updated.')
+    except User.DoesNotExist:
+        messages.error(request, 'User not found.')
+    return redirect('admin_dashboard')
 
 
 @login_required
 def customer_dashboard(request):
-    return render(request, 'customer_dashboard.html')
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')[:10]
+    return render(request, 'customer_dashboard.html', {'orders': orders})
 
 
 @require_POST

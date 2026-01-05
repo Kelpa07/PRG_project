@@ -1,6 +1,7 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Menu</title>
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
   <script defer src="{% static 'js/main.js' %}"></script>
 </head>
+
 <body>
 
   <header class="header">
@@ -23,7 +25,7 @@
       <a href="/">HOME</a>
       <a href="/menu/" class="active">MENU</a>
       <a href="/order/">ORDER</a>
-      <a href="/reception/">RECEPTION{% if reception_has_received %} <span style="color:#fff; background:#d32f2f; padding:2px 6px; border-radius:10px; margin-left:8px">!</span>{% endif %}</a>
+      <a href="/reception/">RECEPTION{% if reception_has_received %}<span style="color:#fff; background:#d32f2f; padding:2px 6px; border-radius:10px; margin-left:8px">!</span>{% endif %}</a>
       <a href="/aboutus/">ABOUT US</a>
     </nav>
 
@@ -104,4 +106,5 @@
   </footer>
 
 </body>
+
 </html>

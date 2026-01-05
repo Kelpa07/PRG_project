@@ -13,6 +13,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
+    path('dashboard/admin/toggle-staff/<int:user_id>/', views.toggle_staff, name='toggle_staff'),
     path('dashboard/customer/', views.customer_dashboard, name='customer_dashboard'),
     path('api/place-order/', views.place_order, name='place_order'),
     path('api/mark-received/<int:order_id>/', views.mark_received, name='mark_received'),

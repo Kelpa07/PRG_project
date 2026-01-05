@@ -1,6 +1,7 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>About Us</title>
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
   <script defer src="{% static 'js/main.js' %}"></script>
 </head>
+
 <body>
 
   <header class="header">
@@ -23,7 +25,7 @@
       <a href="/">HOME</a>
       <a href="/menu/">MENU</a>
       <a href="/order/">ORDER</a>
-      <a href="/reception/">RECEPTION{% if reception_has_received %} <span style="color:#fff; background:#d32f2f; padding:2px 6px; border-radius:10px; margin-left:8px">!</span>{% endif %}</a>
+      <a href="/reception/">RECEPTION{% if reception_has_received %}<span style="color:#fff; background:#d32f2f; padding:2px 6px; border-radius:10px; margin-left:8px">!</span>{% endif %}</a>
       <a href="/aboutus/" class="active">ABOUT US</a>
     </nav>
 
@@ -37,7 +39,8 @@
     <div class="about-hero">
       <div class="about-left">
         <h2 style="margin:0 0 12px 0">About Our Kitchen</h2>
-        <p style="color:#333">We are a small team of cooks dedicated to making familiar flavours with fresh ingredients. Our recipes are inspired by traditional dishes and a modern touch.</p>
+        <p style="color:#333">We are a small team of cooks dedicated to making familiar flavours with fresh ingredients.
+          Our recipes are inspired by traditional dishes and a modern touch.</p>
 
         <ul style="margin-top:12px; color:#333">
           <li>Locally sourced ingredients</li>
@@ -51,12 +54,14 @@
       </div>
 
       <div class="about-right">
-        <img src="{% static 'images/jholmomo.jpg' %}" alt="About image" style="width:100%; height:100%; object-fit:cover; border-radius:8px">
+        <img src="{% static 'images/jholmomo.jpg' %}" alt="About image"
+          style="width:100%; height:100%; object-fit:cover; border-radius:8px">
       </div>
     </div>
   </main>
 
-  <footer class="footer">© {% now "Y" %} Smart Eats — About</footer>
+  <footer class="footer">© 2025 Smart Eats — About</footer>
 
 </body>
+
 </html>

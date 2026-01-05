@@ -131,4 +131,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Secret code required to create admin accounts via signup form.
 # Change this to a secure value before deploying.
-ADMIN_SIGNUP_CODE = 'please-change-this'
+ADMIN_SIGNUP_CODE = '2005'

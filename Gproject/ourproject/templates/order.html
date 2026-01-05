@@ -1,6 +1,7 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Order</title>
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
   <script defer src="{% static 'js/main.js' %}"></script>
 </head>
+
 <body>
 
   <header class="header">
@@ -23,7 +25,7 @@
       <a href="/">HOME</a>
       <a href="/menu/">MENU</a>
       <a href="/order/" class="active">ORDER</a>
-      <a href="/reception/">RECEPTION{% if reception_has_received %} <span style="color:#fff; background:#d32f2f; padding:2px 6px; border-radius:10px; margin-left:8px">!</span>{% endif %}</a>
+      <a href="/reception/">RECEPTION{% if reception_has_received %}<span style="color:#fff; background:#d32f2f; padding:2px 6px; border-radius:10px; margin-left:8px">!</span>{% endif %}</a>
       <a href="/aboutus/">ABOUT US</a>
     </nav>
 
@@ -181,49 +183,52 @@
             <div id="cart-items" style="min-height:120px; margin-bottom:12px"></div>
             <div id="cart-summary" style="font-weight:800; margin-bottom:12px">Total: Nu.0.00</div>
             <div style="display:flex; gap:8px">
-              <button id="cart-clear" style="flex:1; padding:10px; border-radius:8px; border:1px solid #ddd">Clear</button>
-                <button id="cart-checkout" style="flex:1; padding:10px; border-radius:8px; background:var(--accent-green); color:#fff; border:0">Checkout</button>
-              </div>
-              <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                  const checkoutBtn = document.getElementById('cart-checkout');
-                  if (!checkoutBtn) return;
-                  checkoutBtn.addEventListener("click", async () => {
-                    const cart = getCart();
-                    if (!cart.length) { flashMessage('Cart is empty'); return; }
-                    const total = cart.reduce((s,i) => s + (i.price * i.qty), 0);
-                    flashMessage('Placing order...');
-                    try {
-                      const resp = await fetch('/accounts/api/place-order/'.replace('/accounts',''), {
-                        method: 'POST',
-                        headers: {'Content-Type':'application/json', 'X-Requested-With':'XMLHttpRequest'},
-                        body: JSON.stringify({ items: cart, total })
-                      });
-                      const data = await resp.json();
-                      if (data.ok) {
-                        localStorage.removeItem(CART_KEY);
-                        renderCart();
-                        flashMessage(data.message || 'Order placed');
-                        setTimeout(() => window.location.href = '/reception/', 800);
-                      } else {
-                        flashMessage(data.error || 'Order failed');
-                      }
-                    } catch (err) {
-                      flashMessage('Order failed: network error');
-                    }
-                  });
-                });
-              </script>
+              <button id="cart-clear"
+                style="flex:1; padding:10px; border-radius:8px; border:1px solid #ddd">Clear</button>
+              <button id="cart-checkout"
+                style="flex:1; padding:10px; border-radius:8px; background:var(--accent-green); color:#fff; border:0">Checkout</button>
             </div>
+            <script>
+              document.addEventListener('DOMContentLoaded', () => {
+                const checkoutBtn = document.getElementById('cart-checkout');
+                if (!checkoutBtn) return;
+                checkoutBtn.addEventListener("click", async () => {
+                  const cart = getCart();
+                  if (!cart.length) { flashMessage('Cart is empty'); return; }
+                  const total = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+                  flashMessage('Placing order...');
+                  try {
+                    const resp = await fetch('/accounts/api/place-order/'.replace('/accounts', ''), {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+                      body: JSON.stringify({ items: cart, total })
+                    });
+                    const data = await resp.json();
+                    if (data.ok) {
+                      localStorage.removeItem(CART_KEY);
+                      renderCart();
+                      flashMessage(data.message || 'Order placed');
+                      setTimeout(() => window.location.href = '/reception/', 800);
+                    } else {
+                      flashMessage(data.error || 'Order failed');
+                    }
+                  } catch (err) {
+                    flashMessage('Order failed: network error');
+                  }
+                });
+              });
+            </script>
           </div>
-        </aside>
-
       </div>
+      </aside>
+
+    </div>
     </div>
 
   </main>
 
-  <footer class="footer">© {% now "Y" %} Smart Eats — Order</footer>
+  <footer class="footer">© 2025 Smart Eats — Order</footer>
 
 </body>
+
 </html>

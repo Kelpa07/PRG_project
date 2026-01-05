@@ -1,6 +1,7 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Reception</title>
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
   <script defer src="{% static 'js/main.js' %}"></script>
 </head>
+
 <body>
 
   <header class="header">
@@ -41,28 +43,29 @@
         <div style="padding:18px;">
           <h3>Order Notifications</h3>
           {% if orders %}
-            <ul style="list-style:none; padding:0">
-              {% for o in orders %}
-                <li style="padding:10px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center">
-                  <div>
-                    <div><strong>Order #{{ o.id }}</strong> — {{ o.created_at }}</div>
-                    <div style="font-size:13px; color:#555">Status: {{ o.get_status_display }}</div>
-                  </div>
-                  <div>
-                    {% if o.status == 'on_the_way' %}
-                      <form method="post" action="{% url 'mark_received' o.id %}" class="mark-form">
-                        {% csrf_token %}
-                        <button class="btn" type="submit">Mark received</button>
-                      </form>
-                    {% else %}
-                      <span style="color:#fff; background:#d32f2f; padding:6px 8px; border-radius:6px">RECEIVED</span>
-                    {% endif %}
-                  </div>
-                </li>
-              {% endfor %}
-            </ul>
+          <ul style="list-style:none; padding:0">
+            {% for o in orders %}
+            <li
+              style="padding:10px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center">
+              <div>
+                <div><strong>Order #{{ o.id }}</strong> — {{ o.created_at }}</div>
+                <div style="font-size:13px; color:#555">Status: {{ o.get_status_display }}</div>
+              </div>
+              <div>
+                {% if o.status == 'on_the_way' %}
+                <form method="post" action="{% url 'mark_received' o.id %}" class="mark-form">
+                  {% csrf_token %}
+                  <button class="btn" type="submit">Mark received</button>
+                </form>
+                {% else %}
+                <span style="color:#fff; background:#d32f2f; padding:6px 8px; border-radius:6px">RECEIVED</span>
+                {% endif %}
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
           {% else %}
-            <p>No orders yet.</p>
+          <p>No orders yet.</p>
           {% endif %}
         </div>
       </div>
@@ -72,7 +75,8 @@
           <h4 style="margin:0 0 8px 0">Visit Us</h4>
           <p style="margin:0 0 6px 0">Open daily • 9am — 10pm</p>
           <p style="margin:0 0 8px 0">Phone: +975 17 123456</p>
-          <img src="{% static 'images/hero.jpg' %}" alt="map" style="width:100%; height:180px; object-fit:cover; border-radius:6px; margin-top:10px">
+          <img src="{% static 'images/hero.jpg' %}" alt="map"
+            style="width:100%; height:180px; object-fit:cover; border-radius:6px; margin-top:10px">
         </div>
       </aside>
     </div>
@@ -81,4 +85,5 @@
   <footer class="footer">© {% now "Y" %} Smart Eats — Reception</footer>
 
 </body>
+
 </html>

@@ -12,26 +12,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.querySelectorAll(".menu-card").forEach(card => {
     card.addEventListener("click", (e) => {
-      // if data attributes present, put them in order form or show quick modal (light)
       const title = card.querySelector("h4")?.innerText || "";
       const price = card.querySelector(".price")?.innerText || "";
-      // quick add-to-cart if order page exists
       const addEvent = new CustomEvent("quickAdd", { detail: { title, price } });
       window.dispatchEvent(addEvent);
     });
   });
 
-
-  function currencyToNumber(priceText){
+  function currencyToNumber(priceText) {
     if (!priceText) return 0;
-    return parseFloat(priceText.replace(/[^\d.]/g,"")) || 0;
+    return parseFloat(priceText.replace(/[^\d.]/g, "")) || 0;
   }
 
   const CART_KEY = "project_cart_v1";
-  function getCart(){ try { return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); } catch(e){ return [] }}
-  function saveCart(c){ localStorage.setItem(CART_KEY, JSON.stringify(c)); renderCart() }
+  function getCart() { try { return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); } catch (e) { return [] } }
+  function saveCart(c) { localStorage.setItem(CART_KEY, JSON.stringify(c)); renderCart() }
 
-  function renderCart(){
+  function renderCart() {
     const cart = getCart();
     const summary = document.querySelector("#cart-summary");
     const list = document.querySelector("#cart-items");
@@ -44,17 +41,17 @@ document.addEventListener("DOMContentLoaded", function () {
       li.style.display = "flex";
       li.style.justifyContent = "space-between";
       li.style.padding = "8px 0";
-      li.innerHTML = `<div>${escapeHTML(it.title)} x ${it.qty}</div><div>Nu.${(it.price*it.qty).toFixed(2)}</div>`;
+      li.innerHTML = `<div>${escapeHTML(it.title)} x ${it.qty}</div><div>Nu.${(it.price * it.qty).toFixed(2)}</div>`;
       list.appendChild(li);
       total += it.price * it.qty;
     });
     summary.innerText = `Total: Nu.${total.toFixed(2)}`;
   }
 
-  function escapeHTML(s){ return (""+s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c])) }
+  function escapeHTML(s) { return ("" + s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": "&#39;" }[c])) }
 
   // Add item by title/price
-  function addToCart(title, price, qty = 1){
+  function addToCart(title, price, qty = 1) {
     const cart = getCart();
     const pnum = currencyToNumber(price);
     const idx = cart.findIndex(i => i.title === title);
@@ -112,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Simple flash message
-  function flashMessage(txt){
+  function flashMessage(txt) {
     let el = document.querySelector("#flash-msg");
     if (!el) {
       el = document.createElement("div");
@@ -131,32 +128,6 @@ document.addEventListener("DOMContentLoaded", function () {
     el.innerText = txt;
     el.style.opacity = "1";
     setTimeout(() => { el.style.transition = "opacity .6s"; el.style.opacity = "0"; }, 1400);
-  }
-
-  // Reception form basic validation + fake submit animation
-  const receptionForm = document.querySelector("#reception-form");
-  if (receptionForm) {
-    receptionForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const name = receptionForm.querySelector("input[name='name']").value.trim();
-      const phone = receptionForm.querySelector("input[name='phone']").value.trim();
-      const msg = receptionForm.querySelector("textarea[name='message']").value.trim();
-      if (!name || !phone) {
-        flashMessage("Please fill name and phone");
-        return;
-      }
-      // fake submit
-      const btn = receptionForm.querySelector("button[type='submit']");
-      const old = btn.innerHTML;
-      btn.disabled = true;
-      btn.innerHTML = "Sending...";
-      setTimeout(() => {
-        btn.disabled = false;
-        btn.innerHTML = old;
-        receptionForm.reset();
-        flashMessage("Message sent. We'll contact you soon!");
-      }, 1100);
-    });
   }
 
   // small enhancement: make images lazy and responsive (if present)

@@ -1,12 +1,14 @@
 {% load static %}
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>My Account</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
 </head>
+
 <body>
   <header class="header">
     <div class="logo-wrap">
@@ -18,7 +20,7 @@
       <a href="/">HOME</a>
       <a href="/menu/">MENU</a>
       <a href="/order/">ORDER</a>
-      <a href="/reception/">RECEPTION{% if reception_has_received %} <span style="color:#fff; background:#d32f2f; padding:2px 6px; border-radius:10px; margin-left:8px">!</span>{% endif %}</a>
+      <a href="/reception/">RECEPTION{% if reception_has_received %}<span style="color:#fff; background:#d32f2f; padding:2px 6px; border-radius:10px; margin-left:8px">!</span>{% endif %}</a>
       <a href="/aboutus/">ABOUT US</a>
     </nav>
     <div class="auth">
@@ -61,7 +63,8 @@
             <div class="form-group">
               <label>Avatar</label>
               {% if user.profile.avatar %}
-                <div style="margin-bottom:8px"><img src="{{ user.profile.avatar.url }}" style="max-width:100%; height:auto; border-radius:8px"></div>
+              <div style="margin-bottom:8px"><img src="{{ user.profile.avatar.url }}"
+                  style="max-width:100%; height:auto; border-radius:8px"></div>
               {% endif %}
               {{ profile_form.avatar }}
             </div>
@@ -74,6 +77,7 @@
     </form>
   </main>
 
-  <footer class="footer">© {% now "Y" %} Smart Eats — Account</footer>
+  <footer class="footer">© 2025 Smart Eats — Account</footer>
 </body>
+
 </html>
