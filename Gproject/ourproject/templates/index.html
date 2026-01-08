@@ -110,8 +110,17 @@
     </nav>
 
     <div class="auth">
-      <a href="/login/">log in</a>
-      <a class="btn-sign" href="/accounts/">SIGN UP</a>
+      {% if request.user.is_authenticated %}
+        {% if request.user.is_superuser %}
+          <a href="{% url 'admin_dashboard' %}">Admin</a>
+        {% else %}
+          <a href="{% url 'customer_dashboard' %}">Dashboard</a>
+        {% endif %}
+        <a class="btn-sign" href="{% url 'logout' %}">Log out</a>
+      {% else %}
+        <a href="{% url 'login' %}">log in</a>
+        <a class="btn-sign" href="{% url 'accounts' %}">SIGN UP</a>
+      {% endif %}
     </div>
   </header>
 
@@ -144,7 +153,7 @@
     <section id="home-content" style="margin-top:28px;">
       <div class="card" style="padding:20px; min-height:160px;">
         <h3>Welcome One and All</h3>
-        <p class="muted">Look into our newarrival today. Order it while it's trending.s</p>
+        <p class="muted">Look into our newarrival today. Order it while it's trending.</p>
       </div>
     </section>
   </div>

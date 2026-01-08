@@ -36,7 +36,7 @@
 
   <main class="container">
     <h2>Admin Dashboard</h2>
-    <p>Welcome, {{ request.user.username }} — you are an admin.</p>
+    <p>Welcome, {{ request.user.username }} — you are a super admin.</p>
 
     <h3>User Management</h3>
     <table style="width:100%; border-collapse:collapse;">
@@ -54,23 +54,64 @@
           <td style="border:1px solid #ddd; padding:8px;">{{ user.username }}</td>
           <td style="border:1px solid #ddd; padding:8px;">{{ user.email }}</td>
           <td style="border:1px solid #ddd; padding:8px;">
-            {% if user.is_staff %}Admin{% else %}Customer{% endif %}
+            {% if user.is_superuser %}Super Admin{% else %}Customer{% endif %}
           </td>
-          <td style="border:1px solid #ddd; padding:8px;">
-            <form method="post" action="{% url 'toggle_staff' user.id %}" style="display:inline;">
-              {% csrf_token %}
-              <button type="submit" class="btn">
-                {% if user.is_staff %}Demote to Customer{% else %}Promote to Admin{% endif %}
-              </button>
-            </form>
+          <td style="border:1px solid #ddd; padding:8px; color:#777;">
+            Roles are locked (single super admin).
           </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
+
+    <h3>Order Management</h3>
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="background:#f0f0f0;">
+          <th style="border:1px solid #ddd; padding:8px;">Order ID</th>
+          <th style="border:1px solid #ddd; padding:8px;">User</th>
+          <th style="border:1px solid #ddd; padding:8px;">Items</th>
+          <th style="border:1px solid #ddd; padding:8px;">Total</th>
+          <th style="border:1px solid #ddd; padding:8px;">Status</th>
+          <th style="border:1px solid #ddd; padding:8px;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+        <tr>
+          <td style="border:1px solid #ddd; padding:8px;">{{ order.id }}</td>
+          <td style="border:1px solid #ddd; padding:8px;">
+            {% if order.user %}
+              {{ order.user.first_name|default:order.user.username }}
+            {% else %}
+              Anonymous
+            {% endif %}
+          </td>
+          <td style="border:1px solid #ddd; padding:8px;">{{ order.item_names|truncatechars:50 }}</td>
+          <td style="border:1px solid #ddd; padding:8px;">Nu.{{ order.total }}</td>
+          <td style="border:1px solid #ddd; padding:8px;">{{ order.get_status_display }}</td>
+          <td style="border:1px solid #ddd; padding:8px;">
+            {% if order.status == 'on_the_way' %}
+            <form method="post" action="{% url 'update_order_status' order.id 'received' %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn">Mark Received</button>
+            </form>
+            <form method="post" action="{% url 'update_order_status' order.id 'cancelled' %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn" style="background:#d32f2f;">Cancel</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h3>Menu Management</h3>
+    <p><a href="/admin/ourproject/menuitem/" class="btn">Manage Menu Items</a></p>
   </main>
 
-  <footer class="footer">© {% now "Y" %} Smart Eats — Admin Dashboard</footer>
+  <footer class="footer">© 2025 Smart Eats — Admin Dashboard</footer>
 
 </body>
 

@@ -42,54 +42,13 @@
         <h2 class="menu-title">menu</h2>
         <div class="menu-items">
 
-          <div class="menu-card" title="Ema Datshi">
-            <img src="{% static 'images/emadatsi.jpg' %}" alt="Ema">
-            <h4>Ema Datshi</h4>
-            <div class="price">Nu.60</div>
+          {% for item in menu_items %}
+          <div class="menu-card" title="{{ item.name }}">
+            <img src="{% static 'images/'|add:item.image_url %}" alt="{{ item.name }}">
+            <h4>{{ item.name }}</h4>
+            <div class="price">Nu.{{ item.price }}</div>
           </div>
-
-          <div class="menu-card" title="Fried Momo">
-            <img src="{% static 'images/fried momo.avif' %}" alt="Momo">
-            <h4>Fried Momo</h4>
-            <div class="price">Nu.80</div>
-          </div>
-
-          <div class="menu-card" title="Sikam Datshi">
-            <img src="{% static 'images/sikam datsi.jpg' %}" alt="Sikam">
-            <h4>Sikam Datshi</h4>
-            <div class="price">Nu.70</div>
-          </div>
-
-          <div class="menu-card" title="Kewa Datshi">
-            <img src="{% static 'images/kewa datsi.png' %}" alt="Kewa">
-            <h4>Kewa Datshi</h4>
-            <div class="price">Nu.60</div>
-          </div>
-
-          <!-- Additional placeholders: replace image src, title and price as needed -->
-          <div class="menu-card" title="Vegetable Curry">
-            <img src="{% static 'images/vegetablecurry.jpg' %}" alt="Vegetable Curry">
-            <h4>Vegetable Curry</h4>
-            <div class="price">Nu.90</div>
-          </div>
-
-          <div class="menu-card" title="Chicken Fried Rice">
-            <img src="{% static 'images/chicken.jpg' %}" alt="Chicken Fried Rice">
-            <h4>Chicken Fried Rice</h4>
-            <div class="price">Nu.120</div>
-          </div>
-
-          <div class="menu-card" title="Spicy Noodles">
-            <img src="{% static 'images/spicy.jpg' %}" alt="Spicy Noodles">
-            <h4>Spicy Noodles</h4>
-            <div class="price">Nu.100</div>
-          </div>
-
-          <div class="menu-card" title="Seasonal Salad">
-            <img src="{% static 'images/salad.jpg' %}" alt="Seasonal Salad">
-            <h4>Seasonal Salad</h4>
-            <div class="price">Nu.70</div>
-          </div>
+          {% endfor %}
 
         </div>
       </div>
@@ -102,7 +61,7 @@
   </div>
 
   <footer class="footer">
-    © {% now "Y" %} Smart Eats — Menu
+    © 2025 Smart Eats — Menu
   </footer>
 
 </body>

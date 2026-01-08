@@ -102,7 +102,35 @@ document.addEventListener("DOMContentLoaded", function () {
       renderCart();
     });
     if (checkoutBtn) checkoutBtn.addEventListener("click", () => {
-      flashMessage("Proceeding to checkout — (this is demo mode)");
+      const cart = getCart();
+      if (cart.length === 0) {
+        flashMessage("Cart is empty");
+        return;
+      }
+      const items = cart.map(it => ({ title: it.title, price: it.price, qty: it.qty }));
+      const total = cart.reduce((sum, it) => sum + it.price * it.qty, 0);
+      fetch('/api/place-order/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': CSRF_TOKEN
+        },
+        body: JSON.stringify({ items, total })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.ok) {
+          localStorage.removeItem(CART_KEY);
+          renderCart();
+          flashMessage(data.message);
+          if (data.redirect) {
+            window.location.href = data.redirect;
+          }
+        } else {
+          flashMessage("Order failed");
+        }
+      })
+      .catch(() => flashMessage("Order failed"));
     });
 
     renderCart();

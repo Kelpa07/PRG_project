@@ -1,0 +1,66 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>QR Payment</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+  <script defer src="{% static 'js/main.js' %}"></script>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="logo-wrap">
+      <div class="logo-circle yellow"></div>
+      <div class="logo-circle green"></div>
+      <div class="site-title">Smart Eats</div>
+    </div>
+
+    <button class="nav-toggle" aria-label="Toggle nav">☰</button>
+
+    <nav class="nav">
+      <a href="/">HOME</a>
+      <a href="/menu/">MENU</a>
+      <a href="/order/">ORDER</a>
+      <a href="/reception/">RECEPTION</a>
+      <a href="/aboutus/">ABOUT US</a>
+    </nav>
+
+    <div class="auth">
+      {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">Log out</a>
+      {% else %}
+        <a href="/login/">log in</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>QR Payment for Order #{{ order.id }}</h2>
+    <p><strong>Total Amount: Nu.{{ order.total }}</strong></p>
+
+    <div style="text-align: center; margin: 20px 0;">
+      <h3>Scan QR Code to Pay</h3>
+      <img src="{% static 'images/qr_payment.png' %}" alt="QR Code for Payment" style="max-width: 300px; border: 1px solid #ddd; padding: 10px;">
+      <p>Use your mBoB, BNB, or TPay app to scan and pay.</p>
+    </div>
+
+    <form method="post" style="max-width: 400px; margin: 0 auto;">
+      {% csrf_token %}
+      <label for="transaction_ref">Transaction Reference Number (Optional):</label>
+      <input type="text" id="transaction_ref" name="transaction_ref" placeholder="Enter reference number" style="width: 100%; padding: 8px; margin: 10px 0; border: 1px solid #ccc; border-radius: 4px;">
+      
+      <button type="submit" class="btn" style="width: 100%;">I Have Paid</button>
+    </form>
+
+    <p style="text-align: center; margin-top: 20px;">After payment, click "I Have Paid" and wait for staff verification in reception.</p>
+  </main>
+
+  <footer class="footer">© 2025 Smart Eats — QR Payment</footer>
+
+</body>
+
+</html>

@@ -7,6 +7,7 @@
   <title>Order</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+  <script>const CSRF_TOKEN = "{{ csrf_token }}";</script>
   <script defer src="{% static 'js/main.js' %}"></script>
 </head>
 
@@ -30,8 +31,17 @@
     </nav>
 
     <div class="auth">
-      <a href="/login/">log in</a>
-      <a class="btn-sign" href="/accounts/">SIGN UP</a>
+      {% if request.user.is_authenticated %}
+        {% if request.user.is_superuser %}
+          <a href="{% url 'admin_dashboard' %}">Admin</a>
+        {% else %}
+          <a href="{% url 'customer_dashboard' %}">Dashboard</a>
+        {% endif %}
+        <a class="btn-sign" href="{% url 'logout' %}">Log out</a>
+      {% else %}
+        <a href="{% url 'login' %}">log in</a>
+        <a class="btn-sign" href="{% url 'accounts' %}">SIGN UP</a>
+      {% endif %}
     </div>
   </header>
 

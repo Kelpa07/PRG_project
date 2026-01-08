@@ -124,14 +124,6 @@
     <div class="auth-right">
       <div class="brand">MyProject</div>
 
-      {% if messages %}
-      <div class="messages">
-        {% for m in messages %}
-        <div class="muted">{{ m }}</div>
-        {% endfor %}
-      </div>
-      {% endif %}
-
       <h2>Create account</h2>
       <p class="lead">Choose your account type and create an account</p>
 
@@ -187,13 +179,13 @@
       </form>
 
       <script>
-        // show admin code field when 'admin' role radio is selected
+        // show admin code field when 'super_admin' role radio is selected
         (function () {
           const radios = document.querySelectorAll('input[name="role"]');
           const group = document.getElementById('admin-code-group');
           function update() {
             const selected = document.querySelector('input[name="role"]:checked');
-            if (selected && selected.value === 'admin') group.style.display = 'block'; else group.style.display = 'none';
+            if (selected && selected.value === 'super_admin') group.style.display = 'block'; else group.style.display = 'none';
           }
           radios.forEach(r => r.addEventListener('change', update));
           document.addEventListener('DOMContentLoaded', update);

@@ -1,0 +1,92 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>{{ profile_user.username }}'s Profile</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+  <script defer src="{% static 'js/main.js' %}"></script>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="logo-wrap">
+      <div class="logo-circle yellow"></div>
+      <div class="logo-circle green"></div>
+      <div class="site-title">Smart Eats</div>
+    </div>
+
+    <button class="nav-toggle" aria-label="Toggle nav">☰</button>
+
+    <nav class="nav">
+      <a href="/">HOME</a>
+      <a href="/menu/">MENU</a>
+      <a href="/order/">ORDER</a>
+      <a href="/reception/">RECEPTION</a>
+      <a href="/aboutus/">ABOUT US</a>
+    </nav>
+
+    <div class="auth">
+      {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">Log out</a>
+      {% else %}
+        <a href="/login/">log in</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <main class="container">
+    <div style="text-align: center; margin-bottom: 20px;">
+      {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="Avatar" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid #ddd;">
+      {% else %}
+        <div style="width: 150px; height: 150px; border-radius: 50%; background: #ddd; display: inline-block; line-height: 150px; font-size: 60px; color: #666;">
+          {{ profile_user.username|slice:":1"|upper }}
+        </div>
+      {% endif %}
+      <h2>{{ profile_user.get_full_name|default:profile_user.username }}</h2>
+      <p class="muted">@{{ profile_user.username }}</p>
+      {% if profile.location %}
+        <p><strong>Location:</strong> {{ profile.location }}</p>
+      {% endif %}
+    </div>
+
+    <div style="display: flex; gap: 20px;">
+      <div style="flex: 1;">
+        {% if profile.bio %}
+          <h3>About</h3>
+          <p>{{ profile.bio }}</p>
+        {% endif %}
+
+        {% if profile.website %}
+          <h3>Website</h3>
+          <p><a href="{{ profile.website }}" target="_blank">{{ profile.website }}</a></p>
+        {% endif %}
+
+        {% if profile.phone %}
+          <h3>Contact</h3>
+          <p>{{ profile.phone }}</p>
+        {% endif %}
+      </div>
+
+      <div style="width: 300px;">
+        <h3>Account Info</h3>
+        <div class="card" style="padding: 14px;">
+          <p><strong>Joined:</strong> {{ profile_user.date_joined|date:"F Y" }}</p>
+          <p><strong>Role:</strong> {% if profile_user.is_staff %}Admin{% else %}Customer{% endif %}</p>
+          {% if user.is_authenticated and user == profile_user %}
+            <a href="{% url 'profile' %}" class="btn">Edit Profile</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">© 2025 Smart Eats — Profile</footer>
+
+</body>
+
+</html>
